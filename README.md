@@ -1,4 +1,3 @@
-
 # Projeto DevOps — Sistema Comercial de Descontos
 
 Projeto desenvolvido para demonstrar conceitos de:
@@ -134,17 +133,12 @@ vitest.config.js
 ## Código
 
 ```js
-import { defineConfig }
-from 'vitest/config';
+import { defineConfig } from 'vitest/config';
 
 export default defineConfig({
-
   test: {
-
     environment: 'jsdom'
-
   }
-
 });
 ```
 
@@ -162,19 +156,15 @@ export default defineConfig({
 
 ```js
 module.exports = {
-
   env: {
     browser: true,
     es2021: true
   },
-
   extends: ['eslint:recommended'],
-
   parserOptions: {
     ecmaVersion: 'latest',
     sourceType: 'module'
   }
-
 };
 ```
 
@@ -192,32 +182,19 @@ src/services/discountService.js
 
 ```js
 export function calculateDiscount(value) {
-
   if (value <= 0) {
     throw new Error('Valor inválido');
   }
 
-  const discount =
-    value < 100 ? 10 : 5;
-
-  const discountValue =
-    (value * discount) / 100;
-
-  const finalValue =
-    value - discountValue;
+  const discount = value < 100 ? 10 : 5;
+  const discountValue = (value * discount) / 100;
+  const finalValue = value - discountValue;
 
   return {
-
     originalValue: value,
-
     discount,
-
-    discountValue:
-      Number(discountValue.toFixed(2)),
-
-    finalValue:
-      Number(finalValue.toFixed(2))
-
+    discountValue: Number(discountValue.toFixed(2)),
+    finalValue: Number(finalValue.toFixed(2))
   };
 }
 ```
@@ -228,14 +205,11 @@ export function calculateDiscount(value) {
 
 ## Alterar o App.jsx
 
-```txt
-import DiscountDashboard
-from './components/DiscountDashboard';
+```jsx
+import DiscountDashboard from './components/DiscountDashboard';
 
 function App() {
-
   return <DiscountDashboard />;
-
 }
 
 export default App;
@@ -251,165 +225,86 @@ src/components/DiscountDashboard.jsx
 
 ```jsx
 import { useState } from 'react';
-
-import {
-  calculateDiscount
-} from '../services/discountService';
+import { calculateDiscount } from '../services/discountService';
 
 export default function DiscountDashboard() {
-
   const [value, setValue] = useState('');
-
   const [result, setResult] = useState(null);
 
   function handleCalculate() {
-
-    const response =
-      calculateDiscount(Number(value));
-
+    const response = calculateDiscount(Number(value));
     setResult(response);
   }
 
   return (
-
     <div style={styles.container}>
-
       <div style={styles.card}>
-
-        <h1 style={styles.title}>
-          Sistema Comercial
-        </h1>
-
-        <p style={styles.subtitle}>
-          Cálculo automático de descontos
-        </p>
+        <h1 style={styles.title}>Sistema Comercial</h1>
+        <p style={styles.subtitle}>Cálculo automático de descontos</p>
 
         <div style={styles.formGroup}>
-
-          <label style={styles.label}>
-            Valor da Compra
-          </label>
-
+          <label style={styles.label}>Valor da Compra</label>
           <input
             type="number"
-
             placeholder="Digite o valor"
-
             value={value}
-
-            onChange={(e) =>
-              setValue(e.target.value)
-            }
-
+            onChange={(e) => setValue(e.target.value)}
             style={styles.input}
           />
-
         </div>
 
-        <button
-          onClick={handleCalculate}
-          style={styles.button}
-        >
+        <button onClick={handleCalculate} style={styles.button}>
           Calcular Desconto
         </button>
 
-        {
-
-          result && (
-
-            <div style={styles.resultCard}>
-
-              <div style={styles.row}>
-                <span>
-                  Valor Original
-                </span>
-
-                <strong>
-                  R$ {result.originalValue}
-                </strong>
-              </div>
-
-              <div style={styles.row}>
-                <span>
-                  Desconto Aplicado
-                </span>
-
-                <strong>
-                  {result.discount}%
-                </strong>
-              </div>
-
-              <div style={styles.row}>
-                <span>
-                  Economia
-                </span>
-
-                <strong>
-                  R$ {result.discountValue}
-                </strong>
-              </div>
-
-              <div style={styles.divider}></div>
-
-              <div style={styles.totalRow}>
-                <span>
-                  Valor Final
-                </span>
-
-                <strong>
-                  R$ {result.finalValue}
-                </strong>
-              </div>
-
+        {result && (
+          <div style={styles.resultCard}>
+            <div style={styles.row}>
+              <span>Valor Original</span>
+              <strong>R$ {result.originalValue}</strong>
             </div>
 
-          )
+            <div style={styles.row}>
+              <span>Desconto Aplicado</span>
+              <strong>{result.discount}%</strong>
+            </div>
 
-        }
+            <div style={styles.row}>
+              <span>Economia</span>
+              <strong>R$ {result.discountValue}</strong>
+            </div>
 
+            <div style={styles.divider}></div>
+
+            <div style={styles.totalRow}>
+              <span>Valor Final</span>
+              <strong>R$ {result.finalValue}</strong>
+            </div>
+          </div>
+        )}
       </div>
-
     </div>
-
   );
 }
 
 const styles = {
-
   container: {
-
     minHeight: '100vh',
-
     display: 'flex',
-
     justifyContent: 'center',
-
     alignItems: 'center',
-
     background: '#f3f4f6',
-
     padding: '24px',
-
-    fontFamily:
-      'Roboto, Arial, sans-serif'
+    fontFamily: 'Roboto, Arial, sans-serif'
   },
-
   card: {
-
     width: '100%',
-
     maxWidth: '420px',
-
     background: '#ffffff',
-
     borderRadius: '16px',
-
     padding: '32px',
-
-    boxShadow:
-      '0 2px 10px rgba(0,0,0,0.08)'
+    boxShadow: '0 2px 10px rgba(0,0,0,0.08)'
   }
-
 };
 ```
 
@@ -426,48 +321,19 @@ src/tests/unit/discountService.test.js
 ## Código
 
 ```js
-import {
-  describe,
-  test,
-  expect
-}
-from 'vitest';
-
-import {
-  calculateDiscount
-}
-from '../../services/discountService';
+import { describe, test, expect } from 'vitest';
+import { calculateDiscount } from '../../services/discountService';
 
 describe('Teste Unitário', () => {
+  test('deve aplicar 10%', () => {
+    const result = calculateDiscount(50);
+    expect(result.discount).toBe(10);
+  });
 
-  test(
-    'deve aplicar 10%',
-    () => {
-
-      const result =
-        calculateDiscount(50);
-
-      expect(
-        result.discount
-      ).toBe(10);
-
-    }
-  );
-
-  test(
-    'deve aplicar 5%',
-    () => {
-
-      const result =
-        calculateDiscount(200);
-
-      expect(
-        result.discount
-      ).toBe(5);
-
-    }
-  );
-
+  test('deve aplicar 5%', () => {
+    const result = calculateDiscount(200);
+    expect(result.discount).toBe(5);
+  });
 });
 ```
 
@@ -484,62 +350,21 @@ src/tests/integration/DiscountDashboard.test.jsx
 ## Código
 
 ```jsx
-import {
-  render,
-  screen,
-  fireEvent
-}
-from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
+import { test, expect } from 'vitest';
+import DiscountDashboard from '../../components/DiscountDashboard';
 
-import {
-  test,
-  expect
-}
-from 'vitest';
+test('deve calcular desconto', () => {
+  render(<DiscountDashboard />);
 
-import DiscountDashboard
-from '../../components/DiscountDashboard';
+  fireEvent.change(screen.getByPlaceholderText('Digite o valor'), {
+    target: { value: '50' }
+  });
 
-test(
-  'deve calcular desconto',
-  () => {
+  fireEvent.click(screen.getByText('Calcular Desconto'));
 
-    render(
-      <DiscountDashboard />
-    );
-
-    fireEvent.change(
-
-      screen.getByPlaceholderText(
-        'Digite o valor'
-      ),
-
-      {
-        target: {
-          value: '50'
-        }
-      }
-
-    );
-
-    fireEvent.click(
-
-      screen.getByText(
-        'Calcular Desconto'
-      )
-
-    );
-
-    expect(
-
-      screen.getByText(
-        /10%/
-      )
-
-    ).toBeTruthy();
-
-  }
-);
+  expect(screen.getByText(/10%/)).toBeTruthy();
+});
 ```
 
 ---
@@ -555,43 +380,20 @@ src/tests/performance/performance.test.js
 ## Código
 
 ```js
-import {
-  test,
-  expect
-}
-from 'vitest';
+import { test, expect } from 'vitest';
+import { calculateDiscount } from '../../services/discountService';
 
-import {
-  calculateDiscount
-}
-from '../../services/discountService';
+test('performance', () => {
+  const start = performance.now();
 
-test(
-  'performance',
-  () => {
-
-    const start =
-      performance.now();
-
-    for (
-      let i = 0;
-      i < 10000;
-      i++
-    ) {
-
-      calculateDiscount(50);
-
-    }
-
-    const end =
-      performance.now();
-
-    expect(
-      end - start
-    ).toBeLessThan(100);
-
+  for (let i = 0; i < 10000; i++) {
+    calculateDiscount(50);
   }
-);
+
+  const end = performance.now();
+
+  expect(end - start).toBeLessThan(100);
+});
 ```
 
 ---
@@ -616,25 +418,20 @@ ci.yml
 name: CI Pipeline
 
 on:
-
   push:
     branches:
       - main
 
 jobs:
-
   quality:
-
     runs-on: ubuntu-latest
 
     steps:
-
       - name: Checkout
         uses: actions/checkout@v3
 
       - name: Setup Node
         uses: actions/setup-node@v3
-
         with:
           node-version: 20
 
@@ -661,23 +458,17 @@ jobs:
 npm run dev
 ```
 
----
-
 ## Rodar testes
 
 ```bash
 npm test
 ```
 
----
-
 ## Rodar ESLint
 
 ```bash
 npm run lint
 ```
-
----
 
 ## Rodar build
 
@@ -691,25 +482,10 @@ npm run build
 
 ```bash
 git init
-```
-
-```bash
 git add .
-```
-
-```bash
 git commit -m "Projeto DevOps"
-```
-
-```bash
 git branch -M main
-```
-
-```bash
 git remote add origin URL
-```
-
-```bash
 git push -u origin main
 ```
 
@@ -747,8 +523,6 @@ Pipeline aprovada
 const x=1
 ```
 
----
-
 ## Quebrar regra de negócio
 
 Alterar:
@@ -756,8 +530,6 @@ Alterar:
 ```js
 value < 100 ? 10 : 5
 ```
-
----
 
 ## Quebrar build
 
@@ -773,6 +545,5 @@ Alterar import incorretamente.
 - Redução de Erros
 - Validação Automática
 - DevOps na prática
-=======
-# Atividade07DevOps
->>>>>>> 9fb02d4e126c2507933877728128ede8e655bd10
+
+---
