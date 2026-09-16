@@ -491,6 +491,43 @@ git push -u origin main
 
 ---
 
+# Testes Automatizados — Organização
+
+Os três tipos de teste ficam isolados em `src/tests/` e são
+declarados como **projects** independentes do Vitest (arquivo
+`vite.config.js`), cada um com seu próprio ambiente:
+
+| Tipo | Pasta | Ambiente | O que valida |
+|---|---|---|---|
+| Unitário | `src/tests/unit/` | `node` | `discountService.js` isoladamente (regra de negócio, erros, arredondamento) |
+| Integração | `src/tests/integration/` | `jsdom` | `DiscountDashboard.jsx` + serviço, via interação simulada do usuário |
+| Performance | `src/tests/performance/` | `node` | Tempo de execução do cálculo em alto volume |
+
+## Rodando cada tipo separadamente
+
+```bash
+npm run test:unit          # só os testes unitários
+npm run test:integration   # só os testes de integração
+npm run test:performance   # só os testes de performance
+npm run test:all           # os três, em sequência
+npm test                   # todos, de uma vez (padrão do Vitest)
+npm run test:coverage      # relatório de cobertura de código
+```
+
+Cada `test:<tipo>` gera um relatório JUnit próprio em
+`reports/<tipo>.xml`, permitindo analisar o resultado de cada
+suíte separadamente (ex.: em ferramentas de CI ou dashboards de
+qualidade).
+
+## Independência na pipeline (CI)
+
+No GitHub Actions, os três tipos rodam em jobs separados (matrix),
+com `fail-fast: false`: se um tipo falhar, os outros continuam
+rodando e publicando seu próprio relatório como artefato. Só depois
+que todas as suítes terminam é que o job de `build` é executado.
+
+---
+
 # Fluxo da Pipeline
 
 ```txt

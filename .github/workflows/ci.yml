@@ -1,36 +1,86 @@
 name: CI Pipeline
 
 on:
-
   push:
+    branches:
+      - main
+  pull_request:
     branches:
       - main
 
 jobs:
 
-  quality:
-
+  lint:
     runs-on: ubuntu-latest
 
     steps:
-
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup Node
-        uses: actions/setup-node@v3
-
+        uses: actions/setup-node@v4
         with:
           node-version: 20
+          cache: npm
 
       - name: Install
-        run: npm install
+        run: npm ci
 
       - name: ESLint
         run: npm run lint
 
-      - name: Tests
-        run: npm test
+  # Cada tipo de teste roda em um job próprio (matrix), de forma
+  # independente: um deles falhar não impede a execução nem a
+  # análise dos demais (fail-fast: false), e cada um publica seu
+  # próprio relatório JUnit como artefato.
+  tests:
+    runs-on: ubuntu-latest
+    needs: lint
+
+    strategy:
+      fail-fast: false
+      matrix:
+        suite: [unit, integration, performance]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install
+        run: npm ci
+
+      - name: Run ${{ matrix.suite }} tests
+        run: npm run test:${{ matrix.suite }}
+
+      - name: Upload ${{ matrix.suite }} report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: report-${{ matrix.suite }}
+          path: reports/${{ matrix.suite }}.xml
+
+  build:
+    runs-on: ubuntu-latest
+    needs: tests
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install
+        run: npm ci
 
       - name: Build
         run: npm run build

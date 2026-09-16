@@ -7,6 +7,12 @@
     "dev": "vite",
     "build": "vite build",
     "test": "vitest run",
+    "test:watch": "vitest",
+    "test:unit": "vitest run --project unit --reporter=default --reporter=junit --outputFile.junit=./reports/unit.xml",
+    "test:integration": "vitest run --project integration --reporter=default --reporter=junit --outputFile.junit=./reports/integration.xml",
+    "test:performance": "vitest run --project performance --reporter=default --reporter=junit --outputFile.junit=./reports/performance.xml",
+    "test:all": "npm run test:unit && npm run test:integration && npm run test:performance",
+    "test:coverage": "vitest run --coverage",
     "lint": "eslint ."
   },
   "dependencies": {
@@ -20,6 +26,7 @@
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^6.0.1",
+    "@vitest/coverage-v8": "^4.1.7",
     "eslint": "^10.4.0",
     "eslint-plugin-react-hooks": "^7.1.1",
     "eslint-plugin-react-refresh": "^0.5.2",

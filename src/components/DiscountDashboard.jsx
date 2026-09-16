@@ -10,12 +10,24 @@ export default function DiscountDashboard() {
 
   const [result, setResult] = useState(null);
 
+  const [error, setError] = useState(null);
+
   function handleCalculate() {
 
-    const response =
-      calculateDiscount(Number(value));
+    try {
 
-    setResult(response);
+      const response =
+        calculateDiscount(Number(value));
+
+      setResult(response);
+      setError(null);
+
+    } catch (err) {
+
+      setResult(null);
+      setError(err.message);
+
+    }
   }
 
   return (
@@ -60,6 +72,14 @@ export default function DiscountDashboard() {
         >
           Calcular Desconto
         </button>
+
+        {
+          error && (
+            <p style={styles.error}>
+              {error}
+            </p>
+          )
+        }
 
         {
 
@@ -241,6 +261,15 @@ const styles = {
     fontWeight: 'bold',
 
     cursor: 'pointer'
+  },
+
+  error: {
+
+    marginTop: '16px',
+
+    color: '#d32f2f',
+
+    fontSize: '14px'
   },
 
   resultCard: {
