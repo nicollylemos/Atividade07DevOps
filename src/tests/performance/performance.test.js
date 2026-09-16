@@ -31,7 +31,7 @@ test(
 
     expect(
       end - start
-    ).toBeLessThan(100);
+    ).toBeLessThan(1);
 
   }
 );
