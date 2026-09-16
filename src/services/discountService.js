@@ -1,5 +1,7 @@
 export function calculateDiscount(value) {
 
+const x=1;
+
   if (value <= 0) {
     throw new Error('Valor inválido');
   }
