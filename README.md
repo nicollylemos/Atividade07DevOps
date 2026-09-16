@@ -1,3 +1,4 @@
+
 # Projeto DevOps — Sistema Comercial de Descontos
 
 Projeto desenvolvido para demonstrar conceitos de:
@@ -772,3 +773,6 @@ Alterar import incorretamente.
 - Redução de Erros
 - Validação Automática
 - DevOps na prática
+=======
+# Atividade07DevOps
+>>>>>>> 9fb02d4e126c2507933877728128ede8e655bd10
